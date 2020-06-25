@@ -43,9 +43,9 @@ _Complete each task in the order they appear. Use [GitHub Task List](https://hel
 #### Scraping
 
 - [X] **IMPORTANT**: Complete the Web Scraper Workflow worksheet distributed in class.
-- [ ] Create a `struct` to store your data.
-- [ ] Refactor the `c.OnHTML` callback on line `16` to use the selector(s) you tested while completing the worksheet.
-- [ ] Print the data you scraped to `stdout`.
+- [X] Create a `struct` to store your data.
+- [X] Refactor the `c.OnHTML` callback on line `16` to use the selector(s) you tested while completing the worksheet.
+- [X] Print the data you scraped to `stdout`.
 
 ##### Stretch Challenges
 
@@ -53,7 +53,7 @@ _Complete each task in the order they appear. Use [GitHub Task List](https://hel
 
 #### Serializing & Saving
 
-- [ ] Serialize the `struct` you created to JSON. Print the JSON to `stdout` to validate it.
+- [X] Serialize the `struct` you created to JSON. Print the JSON to `stdout` to validate it.
 - [ ] Write scraped data to a file named `output.json`.
 - [ ] **Add, commit, and push to GitHub**.
 
