@@ -6,18 +6,24 @@ import (
 	"github.com/gocolly/colly"
 )
 
-// main() contains code adapted from example found in Colly's docs:
-// http://go-colly.org/docs/examples/basic/
+type newsItem struct {
+	title   string
+	summary string
+	tag     string
+}
+
 func main() {
-	// Instantiate default collector
+	news := []newsItem{}
+
 	c := colly.NewCollector()
 
 	// On every a element which has href attribute call callback
-	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-                link := e.Attr("href")
-
-		// Print link
-                fmt.Printf("Link found: %q -> %s\n", e.Text, link)
+	c.OnHTML(".module--news ul > li", func(e *colly.HTMLElement) {
+		item := newsItem{}
+		item.title = e.ChildText(".media__title")
+		item.summary = e.ChildText(".media__summary")
+		item.tag = e.ChildText(".media__tag")
+		news = append(news, item)
 	})
 
 	// Before making a request print "Visiting ..."
@@ -25,6 +31,6 @@ func main() {
 		fmt.Println("Visiting", r.URL.String())
 	})
 
-	// Start scraping on https://hackerspaces.org
-	c.Visit("https://hackerspaces.org/")
+	c.Visit("https://www.bbc.com/")
+	fmt.Println("News: ", news[0])
 }
