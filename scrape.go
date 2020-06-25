@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 
 	"github.com/gocolly/colly"
 )
@@ -11,6 +13,12 @@ type newsItem struct {
 	Title   string
 	Summary string
 	Tag     string
+}
+
+func writeFile(file []byte) {
+	if err := ioutil.WriteFile("output.json", file, 0644); err != nil {
+		log.Fatalf("Unable to write file! %v", err)
+	}
 }
 
 func printNews(n []newsItem) {
@@ -24,16 +32,17 @@ func serializeToJSON(n []newsItem) {
 	fmt.Println("Serializing news to JSON...")
 	for i := range n {
 		serialized, _ := json.Marshal(n[i])
-		fmt.Println(string(serialized))
+		writeFile(serialized)
 	}
+	fmt.Println("Successfully serialized the news to 'output.json'")
 }
 
 func main() {
+	// Store the scraped news items.
 	news := []newsItem{}
 
 	c := colly.NewCollector()
 
-	// On every a element which has href attribute call callback
 	c.OnHTML(".module--news ul > li", func(e *colly.HTMLElement) {
 		item := newsItem{}
 		item.Title = e.ChildText(".media__title")
@@ -42,12 +51,12 @@ func main() {
 		news = append(news, item)
 	})
 
-	// Before making a request print "Visiting ..."
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Printf("Looking up the news for today... \nProvider: %v\n", r.URL.String())
 	})
 
 	c.Visit("https://www.bbc.com/")
+
 	printNews(news)
 	serializeToJSON(news)
 }
