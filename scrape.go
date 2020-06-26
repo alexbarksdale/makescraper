@@ -10,9 +10,9 @@ import (
 )
 
 type newsItem struct {
-	Title   string
-	Summary string
-	Tag     string
+	Title   string `json:"title"`
+	Summary string `json:"summary"`
+	Tag     string `json:"tag"`
 }
 
 func writeFile(file []byte) {
