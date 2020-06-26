@@ -30,10 +30,8 @@ func printNews(n []newsItem) {
 
 func serializeToJSON(n []newsItem) {
 	fmt.Println("Serializing news to JSON...")
-	for i := range n {
-		serialized, _ := json.Marshal(n[i])
-		writeFile(serialized)
-	}
+	serialized, _ := json.Marshal(n)
+	writeFile(serialized)
 	fmt.Println("Successfully serialized the news to 'output.json'")
 }
 
